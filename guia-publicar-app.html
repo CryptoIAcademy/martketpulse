@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía: Publica tu App Gratis</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117;
+  --bg2: #161b22;
+  --bg3: #21262d;
+  --border: #30363d;
+  --accent: #00ff88;
+  --accent2: #58a6ff;
+  --text: #e6edf3;
+  --text2: #8b949e;
+  --green: #3fb950;
+  --red: #f85149;
+  --yellow: #d29922;
+  --purple: #bc8cff;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 60px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0,255,136,0.08), transparent);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,255,136,0.1);
+  border: 1px solid rgba(0,255,136,0.3);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 12px;
+  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', cursive;
+  font-size: clamp(36px, 6vw, 72px);
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, #fff, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--text2);
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat .num {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 36px;
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+
+.hero-stat .lbl {
+  font-size: 12px;
+  color: var(--text2);
+  letter-spacing: 1px;
+}
+
+/* PROGRESS */
+.progress-bar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.progress-bar::-webkit-scrollbar { display: none; }
+
+.prog-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+
+.prog-step:hover { background: var(--bg3); }
+.prog-step.done .prog-num { background: var(--green); color: #000; }
+.prog-step.active .prog-num { background: var(--accent); color: #000; box-shadow: 0 0 12px rgba(0,255,136,0.5); }
+
+.prog-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: all .3s;
+}
+
+.prog-lbl {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+}
+
+.prog-step.active .prog-lbl { color: var(--text); }
+.prog-step.done .prog-lbl { color: var(--green); }
+
+.prog-line {
+  width: 30px;
+  height: 2px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* MAIN */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+/* STEP */
+.step {
+  margin-bottom: 60px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all .6s ease;
+}
+
+.step.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.step-num {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 28px;
+  color: #000;
+  flex-shrink: 0;
+  box-shadow: 0 0 30px rgba(0,255,136,0.3);
+}
+
+.step-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 32px;
+  letter-spacing: 2px;
+}
+
+.step-subtitle {
+  font-size: 14px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+
+/* SCREEN MOCKUP */
+.screen {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+
+.screen-bar {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #ff5f57; }
+.dot.y { background: #ffbd2e; }
+.dot.g { background: #28c840; }
+
+.url-bar {
+  flex: 1;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--text2);
+  margin: 0 8px;
+}
+
+.screen-body {
+  padding: 24px;
+}
+
+/* BROWSER MOCKUP */
+.browser {
+  background: #0d1117;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+}
+
+/* ANNOTATED SCREENSHOT */
+.annotated {
+  position: relative;
+  background: var(--bg3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ann-arrow {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 230, 0, 0.95);
+  color: #000;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* UI MOCKUPS */
+.gh-header {
+  background: #010409;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #21262d;
+}
+
+.gh-logo { font-size: 22px; }
+
+.gh-nav { display: flex; gap: 20px; align-items: center; }
+.gh-nav-item { font-size: 13px; color: #c9d1d9; }
+
+.gh-btn {
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.gh-btn-primary { background: #238636; color: #fff; border: 1px solid #2ea043; }
+.gh-btn-secondary { background: #21262d; color: #c9d1d9; border: 1px solid #363b42; }
+.gh-btn-green { background: #2ea043; color: #fff; border: 1px solid #3fb950; }
+
+.gh-form {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.gh-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c9d1d9;
+  margin-bottom: 6px;
+}
+
+.gh-input {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #c9d1d9;
+  font-family: 'Space Mono', monospace;
+}
+
+.gh-input:focus-visible { outline: 2px solid #1f6feb; }
+
+.gh-radio-box {
+  border: 2px solid var(--accent2);
+  border-radius: 6px;
+  padding: 12px;
+  margin: 8px 0;
+  background: rgba(31,111,235,0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gh-check {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #000;
+  flex-shrink: 0;
+}
+
+/* INSTRUCTION BOX */
+.instr {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.instr-title {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.instr-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.instr-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.instr-n {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.instr-txt {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.instr-txt strong { color: var(--accent); }
+.instr-txt code {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 7px;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--purple);
+}
+
+/* TIP BOX */
+.tip {
+  background: rgba(88,166,255,0.08);
+  border: 1px solid rgba(88,166,255,0.25);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--text);
+  margin: 14px 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.warn {
+  background: rgba(210,153,34,0.1);
+  border: 1px solid rgba(210,153,34,0.3);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13px;
+  margin: 14px 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: var(--text);
+}
+
+.success {
+  background: rgba(63,185,80,0.1);
+  border: 1px solid rgba(63,185,80,0.3);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13px;
+  margin: 14px 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: var(--text);
+}
+
+/* HIGHLIGHT */
+.highlight {
+  background: rgba(0,255,136,0.08);
+  border: 2px solid rgba(0,255,136,0.3);
+  border-radius: 8px;
+  padding: 4px 10px;
+  display: inline;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* PHONE MOCKUP */
+.phone {
+  width: 200px;
+  border: 6px solid #333;
+  border-radius: 32px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  margin: 0 auto;
+}
+
+.phone-screen {
+  background: var(--bg);
+  min-height: 320px;
+  padding: 16px 10px;
+}
+
+.phone-status {
+  background: #000;
+  padding: 8px 16px 4px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #fff;
+}
+
+/* FINAL CARD */
+.final-card {
+  background: linear-gradient(135deg, rgba(0,255,136,0.08), rgba(88,166,255,0.08));
+  border: 1px solid rgba(0,255,136,0.3);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.final-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 48px;
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+.link-preview {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 20px;
+  font-family: 'Space Mono', monospace;
+  font-size: 16px;
+  color: var(--accent2);
+  margin: 20px 0;
+  display: inline-block;
+  word-break: break-all;
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 48px 0;
+}
+
+@media (max-width: 640px) {
+  .hero { padding: 40px 16px; }
+  .container { padding: 24px 16px; }
+  .step-title { font-size: 24px; }
+  .progress-bar { padding: 12px 16px; gap: 0; }
+  .prog-lbl { display: none; }
+  .hero-stats { gap: 24px; }
+  .gh-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div style="position:relative;z-index:1">
+    <div class="hero-badge">📖 GUÍA COMPLETA PASO A PASO</div>
+    <h1>PUBLICA TU APP<br>EN INTERNET</h1>
+    <p>Sin conocimientos de programación. Gratis para siempre. En 10 minutos.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">3</div><div class="lbl">PASOS TOTALES</div></div>
+      <div class="hero-stat"><div class="num">10</div><div class="lbl">MINUTOS</div></div>
+      <div class="hero-stat"><div class="num">$0</div><div class="lbl">COSTO</div></div>
+      <div class="hero-stat"><div class="num">∞</div><div class="lbl">USUARIOS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar">
+  <div class="prog-step active" onclick="scrollTo(0)">
+    <div class="prog-num">1</div>
+    <div class="prog-lbl">Descargar archivo</div>
+  </div>
+  <div class="prog-line"></div>
+  <div class="prog-step" onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})">
+    <div class="prog-num">2</div>
+    <div class="prog-lbl">Crear cuenta GitHub</div>
+  </div>
+  <div class="prog-line"></div>
+  <div class="prog-step" onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})">
+    <div class="prog-num">3</div>
+    <div class="prog-lbl">Subir y publicar</div>
+  </div>
+  <div class="prog-line"></div>
+  <div class="prog-step" onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})">
+    <div class="prog-num">4</div>
+    <div class="prog-lbl">Instalar en celular</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+  <!-- ══════════════════ PASO 1 ══════════════════ -->
+  <div class="step visible" id="step1">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">DESCARGA EL ARCHIVO</div>
+        <div class="step-subtitle">Guarda la app en tu computadora</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span style="font-size:20px">💡</span>
+      <span>El archivo de tu app ya está listo. Solo necesitas descargarlo y guardarlo en tu computadora. Es como descargar cualquier foto o documento.</span>
+    </div>
+
+    <div class="instr">
+      <div class="instr-title">📥 Cómo descargar tu archivo</div>
+      <ul class="instr-list">
+        <li class="instr-item">
+          <div class="instr-n">1</div>
+          <div class="instr-txt">Busca el archivo <strong>marketpulse-live</strong> que Claude te generó arriba en esta conversación</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">2</div>
+          <div class="instr-txt">Haz clic en el botón de <strong>descarga</strong> (ícono de flecha hacia abajo ↓)</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">3</div>
+          <div class="instr-txt">El archivo se guardará en tu carpeta <strong>Descargas</strong></div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">4</div>
+          <div class="instr-txt">⚠️ <strong>MUY IMPORTANTE:</strong> Renombra el archivo. Haz clic derecho sobre él → "Cambiar nombre" → escribe exactamente: <code>index.html</code></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Mockup del archivo -->
+    <div class="screen">
+      <div class="screen-bar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <div class="url-bar">📁 Carpeta Descargas</div>
+      </div>
+      <div class="screen-body" style="background:#1e1e1e">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:#252525;border-radius:6px;border:2px solid var(--accent)">
+            <span style="font-size:28px">🌐</span>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#fff">index.html</div>
+              <div style="font-size:11px;color:#888">Tu app MarketPulse — 87 KB</div>
+            </div>
+            <div style="margin-left:auto;background:var(--accent);color:#000;padding:4px 12px;border-radius:4px;font-size:11px;font-weight:700">✓ LISTO</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:6px;opacity:0.4">
+            <span style="font-size:24px">📄</span>
+            <div style="font-size:13px;color:#888">otros archivos...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn">
+      <span style="font-size:20px">⚠️</span>
+      <span>El archivo <strong>DEBE</strong> llamarse <code>index.html</code> — con esa letra minúscula exacta. Si se llama diferente, la app no funcionará en internet.</span>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════ PASO 2 ══════════════════ -->
+  <div class="step" id="step2">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">CREA TU CUENTA EN GITHUB</div>
+        <div class="step-subtitle">GitHub es como Google Drive pero para apps — y es gratis</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span style="font-size:20px">💡</span>
+      <span><strong>¿Qué es GitHub?</strong> Es una página web donde puedes guardar archivos y convertirlos en páginas web gratis. Lo usan millones de desarrolladores en el mundo. Solo necesitas crear una cuenta.</span>
+    </div>
+
+    <div class="instr">
+      <div class="instr-title">🖥️ Crear cuenta paso a paso</div>
+      <ul class="instr-list">
+        <li class="instr-item">
+          <div class="instr-n">1</div>
+          <div class="instr-txt">Abre tu navegador (Chrome, Firefox, Safari) y ve a <strong>github.com</strong></div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">2</div>
+          <div class="instr-txt">Haz clic en el botón verde <strong>"Sign up"</strong> (Registrarse)</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">3</div>
+          <div class="instr-txt">Escribe tu <strong>correo electrónico</strong>, crea una <strong>contraseña</strong> y elige un <strong>nombre de usuario</strong> (ej: <code>juanfinanzas</code>)</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">4</div>
+          <div class="instr-txt">Resuelve el pequeño captcha (puzzle de verificación)</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">5</div>
+          <div class="instr-txt">Revisa tu correo y haz clic en el <strong>enlace de verificación</strong> que GitHub te envió</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Mockup pantalla de registro -->
+    <div class="screen">
+      <div class="screen-bar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <div class="url-bar">🔒 github.com/signup</div>
+      </div>
+      <div class="screen-body" style="max-width:400px;margin:0 auto">
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="font-size:36px">🐙</div>
+          <div style="font-size:22px;font-weight:700;color:#fff;margin-top:8px">Crea tu cuenta</div>
+          <div style="font-size:13px;color:#8b949e">¡Es completamente gratis!</div>
+        </div>
+        <div class="gh-form">
+          <label class="gh-label">Tu correo electrónico</label>
+          <div class="gh-input" style="color:#888;margin-bottom:12px">tucorreo@gmail.com</div>
+          <label class="gh-label">Contraseña</label>
+          <div class="gh-input" style="color:#888;margin-bottom:12px">••••••••••</div>
+          <label class="gh-label">Nombre de usuario</label>
+          <div class="gh-input" style="color:#888">juanfinanzas</div>
+        </div>
+        <div style="background:#238636;color:#fff;border-radius:6px;padding:10px;text-align:center;font-weight:700;font-size:14px;margin-top:12px;cursor:pointer">
+          Crear cuenta →
+        </div>
+      </div>
+    </div>
+
+    <div class="success">
+      <span style="font-size:20px">✅</span>
+      <span>Una vez verificado tu correo, ya tienes tu cuenta de GitHub lista. ¡El proceso es igual a registrarse en cualquier otra página!</span>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════ PASO 3 ══════════════════ -->
+  <div class="step" id="step3">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">SUBE Y PUBLICA TU APP</div>
+        <div class="step-subtitle">3 sub-pasos: crear repositorio → subir archivo → activar</div>
+      </div>
+    </div>
+
+    <!-- SUB-PASO 3A -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <div style="background:rgba(0,255,136,0.15);border:1px solid rgba(0,255,136,0.3);border-radius:6px;padding:4px 12px;font-family:'Space Mono',monospace;font-size:12px;color:var(--accent)">PARTE A</div>
+        <div style="font-weight:700;font-size:16px">Crear un repositorio (carpeta pública)</div>
+      </div>
+      <ul class="instr-list">
+        <li class="instr-item">
+          <div class="instr-n">1</div>
+          <div class="instr-txt">Inicia sesión en <strong>github.com</strong> con tu cuenta nueva</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">2</div>
+          <div class="instr-txt">Haz clic en el botón <strong style="color:var(--green)">verde "New"</strong> que aparece a la izquierda (o en el "+" de arriba a la derecha)</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">3</div>
+          <div class="instr-txt">En "Repository name" escribe: <code>marketpulse</code> (sin espacios, todo minúscula)</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">4</div>
+          <div class="instr-txt">Selecciona <strong>"Public"</strong> (público) — esto es necesario para que otros puedan ver tu app</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">5</div>
+          <div class="instr-txt">Marca la casilla <strong>"Add a README file"</strong></div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">6</div>
+          <div class="instr-txt">Haz clic en el botón verde <strong>"Create repository"</strong></div>
+        </li>
+      </ul>
+
+      <div class="screen" style="margin-top:16px">
+        <div class="screen-bar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="url-bar">🔒 github.com/new</div>
+        </div>
+        <div class="screen-body">
+          <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:16px">Crear nuevo repositorio</div>
+          <div class="gh-form">
+            <div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:12px;flex-wrap:wrap">
+              <div style="flex:0 0 auto">
+                <div class="gh-label">Propietario</div>
+                <div class="gh-input" style="width:140px;color:#58a6ff">juanfinanzas ▾</div>
+              </div>
+              <div style="color:#8b949e;font-size:20px;padding-bottom:8px">/</div>
+              <div style="flex:1;min-width:160px">
+                <div class="gh-label">Nombre del repositorio ⭐</div>
+                <div class="gh-input" style="border-color:var(--accent);color:#fff">marketpulse</div>
+              </div>
+            </div>
+            <div style="margin-bottom:16px">
+              <div class="gh-radio-box" style="border-color:var(--accent2)">
+                <div class="gh-check">●</div>
+                <div>
+                  <div style="font-size:13px;font-weight:600;color:#c9d1d9">🔓 Public ⭐</div>
+                  <div style="font-size:11px;color:#8b949e">Cualquier persona puede ver este repositorio</div>
+                </div>
+              </div>
+              <div style="border:1px solid #30363d;border-radius:6px;padding:10px;display:flex;align-items:center;gap:10px;opacity:0.5">
+                <div style="width:16px;height:16px;border-radius:50%;border:2px solid #8b949e"></div>
+                <div style="font-size:13px;color:#8b949e">🔒 Private (No uses esta)</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:10px;background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.3);border-radius:6px">
+              <span style="font-size:18px">☑️</span>
+              <span style="font-size:13px;color:#c9d1d9"><strong>Add a README file</strong> ⭐ (marca esta casilla)</span>
+            </div>
+          </div>
+          <div class="gh-btn gh-btn-primary" style="margin-top:12px;padding:10px 20px;font-size:14px;border-radius:6px;display:inline-block">
+            ✅ Create repository
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUB-PASO 3B -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <div style="background:rgba(88,166,255,0.15);border:1px solid rgba(88,166,255,0.3);border-radius:6px;padding:4px 12px;font-family:'Space Mono',monospace;font-size:12px;color:var(--accent2)">PARTE B</div>
+        <div style="font-weight:700;font-size:16px">Subir tu archivo index.html</div>
+      </div>
+      <ul class="instr-list">
+        <li class="instr-item">
+          <div class="instr-n">1</div>
+          <div class="instr-txt">Dentro de tu repositorio nuevo, haz clic en <strong>"Add file"</strong> → luego en <strong>"Upload files"</strong></div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">2</div>
+          <div class="instr-txt">Arrastra tu archivo <code>index.html</code> al área que dice <strong>"Drag files here"</strong> — o haz clic en "choose your files" para buscarlo en tu computadora</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">3</div>
+          <div class="instr-txt">Espera que suba (verás una barra de progreso verde)</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">4</div>
+          <div class="instr-txt">Haz clic en el botón verde <strong>"Commit changes"</strong> al final de la página</div>
+        </li>
+      </ul>
+
+      <div class="screen" style="margin-top:16px">
+        <div class="screen-bar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="url-bar">🔒 github.com/juanfinanzas/marketpulse/upload</div>
+        </div>
+        <div class="screen-body">
+          <div style="border:2px dashed var(--accent);border-radius:10px;padding:32px;text-align:center;background:rgba(0,255,136,0.03);margin-bottom:16px">
+            <div style="font-size:48px;margin-bottom:12px">📁</div>
+            <div style="font-size:16px;font-weight:600;color:#fff;margin-bottom:6px">Arrastra tu archivo aquí</div>
+            <div style="font-size:13px;color:#8b949e;margin-bottom:16px">o</div>
+            <div class="gh-btn gh-btn-secondary" style="display:inline-block">📂 choose your files</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.2);border-radius:6px;padding:12px;margin-bottom:16px">
+            <span style="font-size:20px">🌐</span>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#3fb950">index.html ✓</div>
+              <div style="font-size:11px;color:#8b949e">87 KB — Subido correctamente</div>
+            </div>
+            <div style="margin-left:auto;width:80px;height:4px;background:#3fb950;border-radius:2px"></div>
+          </div>
+          <div class="gh-btn gh-btn-green" style="display:inline-block;padding:10px 20px;font-size:14px;border-radius:6px">
+            ✅ Commit changes
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUB-PASO 3C -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <div style="background:rgba(188,140,255,0.15);border:1px solid rgba(188,140,255,0.3);border-radius:6px;padding:4px 12px;font-family:'Space Mono',monospace;font-size:12px;color:var(--purple)">PARTE C</div>
+        <div style="font-weight:700;font-size:16px">Activar GitHub Pages (publicar en internet)</div>
+      </div>
+      <ul class="instr-list">
+        <li class="instr-item">
+          <div class="instr-n">1</div>
+          <div class="instr-txt">En tu repositorio, haz clic en <strong>"Settings"</strong> (el engranaje ⚙️ en el menú de arriba)</div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">2</div>
+          <div class="instr-txt">En el menú de la izquierda, busca y haz clic en <strong>"Pages"</strong></div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">3</div>
+          <div class="instr-txt">En "Branch" (rama), cambia de <code>None</code> a <strong><code>main</code></strong></div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">4</div>
+          <div class="instr-txt">Deja la carpeta como <code>/ (root)</code> y haz clic en <strong>"Save"</strong></div>
+        </li>
+        <li class="instr-item">
+          <div class="instr-n">5</div>
+          <div class="instr-txt">⏰ Espera <strong>2 a 5 minutos</strong> y recarga la página — aparecerá tu link en verde</div>
+        </li>
+      </ul>
+
+      <div class="screen" style="margin-top:16px">
+        <div class="screen-bar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="url-bar">🔒 github.com/juanfinanzas/marketpulse/settings/pages</div>
+        </div>
+        <div class="screen-body">
+          <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:6px">GitHub Pages</div>
+          <div style="font-size:13px;color:#8b949e;margin-bottom:20px">Publica tu sitio web directamente desde tu repositorio</div>
+
+          <!-- Éxito -->
+          <div style="background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.3);border-radius:8px;padding:16px;margin-bottom:20px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <span style="font-size:16px">🎉</span>
+              <span style="font-size:13px;font-weight:600;color:#3fb950">¡Tu sitio está publicado!</span>
+            </div>
+            <div style="font-size:13px;color:#c9d1d9">Tu app está disponible en:</div>
+            <div style="background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:10px 14px;margin-top:8px;font-family:'Space Mono',monospace;font-size:13px;color:#58a6ff">
+              https://juanfinanzas.github.io/marketpulse
+            </div>
+          </div>
+
+          <div style="margin-bottom:12px">
+            <div class="gh-label">Branch (Rama) ⭐</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <div class="gh-input" style="width:120px;border-color:var(--accent);color:#fff">main ▾</div>
+              <div class="gh-input" style="width:120px">/ (root) ▾</div>
+              <div class="gh-btn gh-btn-primary" style="display:inline-block;padding:7px 16px">Save</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="success" style="margin-top:16px">
+        <span style="font-size:20px">🎉</span>
+        <span>Después de 2-5 minutos, tu app estará disponible en: <strong style="color:var(--accent2)">https://TUNOMBRE.github.io/marketpulse</strong> — ¡Compártela con quien quieras!</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════ PASO 4 ══════════════════ -->
+  <div class="step" id="step4">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">INSTALA EN TU CELULAR</div>
+        <div class="step-subtitle">Conviértela en app — sin App Store ni Play Store</div>
+      </div>
+    </div>
+
+    <div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0">
+
+      <!-- iPhone -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px">
+        <div style="text-align:center;margin-bottom:16px">
+          <span style="font-size:32px">🍎</span>
+          <div style="font-weight:700;font-size:16px;margin-top:6px">iPhone / iPad</div>
+        </div>
+        <ul class="instr-list">
+          <li class="instr-item">
+            <div class="instr-n">1</div>
+            <div class="instr-txt">Abre <strong>Safari</strong> (no Chrome)</div>
+          </li>
+          <li class="instr-item">
+            <div class="instr-n">2</div>
+            <div class="instr-txt">Ve a tu link de GitHub Pages</div>
+          </li>
+          <li class="instr-item">
+            <div class="instr-n">3</div>
+            <div class="instr-txt">Toca el botón <strong>compartir</strong> 📤 (cuadro con flecha hacia arriba)</div>
+          </li>
+          <li class="instr-item">
+            <div class="instr-n">4</div>
+            <div class="instr-txt">Toca <strong>"Agregar a pantalla de inicio"</strong></div>
+          </li>
+          <li class="instr-item">
+            <div class="instr-n">5</div>
+            <div class="instr-txt">Toca <strong>"Agregar"</strong> — ¡ya tienes el ícono!</div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Android -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px">
+        <div style="text-align:center;margin-bottom:16px">
+          <span style="font-size:32px">🤖</span>
+          <div style="font-weight:700;font-size:16px;margin-top:6px">Android</div>
+        </div>
+        <ul class="instr-list">
+          <li class="instr-item">
+            <div class="instr-n">1</div>
+            <div class="instr-txt">Abre <strong>Chrome</strong></div>
+          </li>
+          <li class="instr-item">
+            <div class="instr-n">2</div>
+            <div class="instr-txt">Ve a tu link de GitHub Pages</div>
+          </li>
+          <li class="instr-item">
+            <div class="instr-n">3</div>
+            <div class="instr-txt">Toca los <strong>3 puntos ⋮</strong> (arriba a la derecha)</div>
+          </li>
+          <li class="instr-item">
+            <div class="instr-n">4</div>
+            <div class="instr-txt">Toca <strong>"Agregar a pantalla de inicio"</strong></div>
+          </li>
+          <li class="instr-item">
+            <div class="instr-n">5</div>
+            <div class="instr-txt">Toca <strong>"Agregar"</strong> — ¡ya tienes el ícono!</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Phone mockup -->
+    <div style="text-align:center;margin:24px 0">
+      <div class="phone">
+        <div class="phone-status">
+          <span>9:41</span>
+          <span>▶ ● ■</span>
+        </div>
+        <div class="phone-screen">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:8px 4px">
+            <div style="text-align:center">
+              <div style="width:48px;height:48px;background:linear-gradient(135deg,#00ff88,#0088ff);border-radius:12px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:22px">📊</div>
+              <div style="font-size:8px;color:#fff">MarketPulse</div>
+            </div>
+            <div style="text-align:center;opacity:0.3">
+              <div style="width:48px;height:48px;background:#333;border-radius:12px;margin:0 auto 4px"></div>
+              <div style="font-size:8px;color:#888">App</div>
+            </div>
+            <div style="text-align:center;opacity:0.3">
+              <div style="width:48px;height:48px;background:#333;border-radius:12px;margin:0 auto 4px"></div>
+              <div style="font-size:8px;color:#888">App</div>
+            </div>
+            <div style="text-align:center;opacity:0.3">
+              <div style="width:48px;height:48px;background:#333;border-radius:12px;margin:0 auto 4px"></div>
+              <div style="font-size:8px;color:#888">App</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding:8px;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.2);border-radius:8px;font-size:9px;color:var(--accent);text-align:center">
+            ✓ MarketPulse instalado como app
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FINAL -->
+  <div class="final-card">
+    <div class="final-title">¡LISTO! 🎉</div>
+    <p style="font-size:16px;color:var(--text2);margin-bottom:16px">Tu app de mercados financieros en tiempo real estará disponible en:</p>
+    <div class="link-preview">https://TUNOMBRE.github.io/marketpulse</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:24px">Reemplaza <strong style="color:var(--accent)">TUNOMBRE</strong> con el nombre de usuario que elegiste en GitHub</p>
+
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:500px;margin:0 auto;text-align:left">
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;gap:10px;align-items:center">
+        <span style="font-size:20px">🌍</span>
+        <span style="font-size:13px">Funciona en <strong>cualquier dispositivo</strong></span>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;gap:10px;align-items:center">
+        <span style="font-size:20px">👥</span>
+        <span style="font-size:13px">Sin límite de <strong>usuarios</strong></span>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;gap:10px;align-items:center">
+        <span style="font-size:20px">$0</span>
+        <span style="font-size:13px"><strong>Completamente gratis</strong> para siempre</span>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;gap:10px;align-items:center">
+        <span style="font-size:20px">📡</span>
+        <span style="font-size:13px">Datos crypto <strong>en tiempo real</strong></span>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text2)">
+      💬 <strong style="color:var(--text)">¿Algún paso no te quedó claro?</strong> Dile a Claude exactamente en qué punto te quedaste y te ayuda al instante.
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Animate steps on scroll
+const steps = document.querySelectorAll('.step');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+steps.forEach(s => observer.observe(s));
+
+// Progress bar active state on scroll
+window.addEventListener('scroll', () => {
+  const s1 = document.getElementById('step1');
+  const s2 = document.getElementById('step2');
+  const s3 = document.getElementById('step3');
+  const s4 = document.getElementById('step4');
+  const steps_els = [s1, s2, s3, s4];
+  const progs = document.querySelectorAll('.prog-step');
+  const scrollY = window.scrollY + 200;
+  steps_els.forEach((s, i) => {
+    if (s && scrollY >= s.offsetTop) {
+      progs.forEach(p => p.classList.remove('active', 'done'));
+      for (let j = 0; j < i; j++) progs[j]?.classList.add('done');
+      progs[i]?.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>
